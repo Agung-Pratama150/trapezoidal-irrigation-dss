@@ -48,8 +48,38 @@ def plot_trapezoidal(t_vals, y_vals, a, b, h, expr):
 
 # Antarmuka Pengguna dengan Streamlit
 def main():
-    st.title("Sistem Bantu Keputusan Pengelolaan Air Irigasi")
-    st.markdown("### Berbasis Metode Trapesium")
+    # Menampilkan Logo dan Foto Tim
+    col1, col2 = st.columns([1, 2])
+    with col1:
+        st.image("logo_uigm.png", width=150)
+    with col2:
+        st.image("foto_tim.png", use_column_width=True)
+    
+    # Judul dan Deskripsi
+    st.title("SISTEM BANTU KEPUTUSAN METODE TRAPESIUM UNTUK PENGELOLAAN AIR IRIGASI DENGAN PYTHON")
+    st.markdown("""
+    ### Penulis:
+    **Agung Pratama1, M.U. Fido Millano P.2, Yeni3, Ajeng Kusumaning Dewi4, Alfina Elsa Putri5**  
+    Program Studi Teknik Informatika, Fakultas Ilmu Komputer dan Sains, Universitas Indo Global Mandiri  
+    Jl. Jend. Sudirman Km.4 No. 62, 20 Ilir D. IV, Kec. Ilir Tim. I, Kota Palembang, Sumatera Selatan 30129  
+    E-mail:  
+    2023110111@students.uigm.ac.id  
+    2022110097@students.uigm.ac.id  
+    2023110102@students.uigm.ac.id  
+    2023110118@students.uigm.ac.id  
+    2023110118@students.uigm.ac.id  
+
+    #### Abstrak
+    Pengelolaan air irigasi kerap menghadapi tantangan dalam menentukan volume dan durasi aliran yang optimal. Dalam penelitian ini, dikembangkan sebuah sistem bantu keputusan yang memanfaatkan metode trapesium untuk mendekati nilai total aliran air. Program ini dikembangkan menggunakan bahasa pemrograman Python dan dapat memodelkan laju aliran air dari waktu ke waktu sehingga memudahkan proses penghitungan volume secara numerik. Dengan metode ini, pengelola irigasi dapat membandingkan jumlah air yang diberikan dengan kebutuhan lahan secara lebih efisien, tanpa perlu melakukan pemantauan manual yang berkelanjutan. Proses pengujian dilakukan pada beberapa skenario simulasi yang menunjukkan akurasi perhitungan volume air yang baik serta waktu komputasi yang relatif singkat. Hasil penelitian ini menunjukkan bahwa sistem bantu keputusan berbasis metode trapesium mampu mendukung pengambilan keputusan yang lebih tepat dalam pengelolaan air irigasi. Temuan ini diharapkan membantu para pemangku kepentingan mempertahankan ketersediaan air yang memadai dan efisien bagi area pertanian.
+
+    **Kata Kunci:** air, irigasi, keputusan, sistem, trapezium, python
+    """)
+
+    # Penjelasan tentang Program
+    st.markdown("""
+    ### Tentang Program Ini
+    Program ini dikembangkan sebagai **Sistem Bantu Keputusan** untuk pengelolaan air irigasi menggunakan **metode trapesium**. Dengan memanfaatkan bahasa pemrograman Python, aplikasi ini memungkinkan pengelola irigasi untuk menghitung volume air secara numerik berdasarkan laju aliran air yang berubah seiring waktu. Sistem ini dirancang untuk meningkatkan efisiensi pengelolaan air irigasi dengan memberikan perbandingan yang akurat antara jumlah air yang dialirkan dan kebutuhan lahan pertanian.
+    """)
 
     st.sidebar.header("Input Parameter")
 
@@ -193,4 +223,3 @@ def fig_to_image(fig):
 
 if __name__ == "__main__":
     main()
-
