@@ -40,7 +40,7 @@ def plot_trapezoidal(t_vals, y_vals, a, b, h, expr):
 
     ax.set_title('Grafik Laju Alir vs Waktu dengan Aturan Trapesium', fontsize=14)
     ax.set_xlabel('Waktu (t) [detik]', fontsize=12)
-    ax.set_ylabel('Laju Alir F(t) [m^3/detik]', fontsize=12)
+    ax.set_ylabel('Laju Alir F(t) [m³/detik]', fontsize=12)
     ax.legend()
     ax.grid(True)
     plt.tight_layout()
@@ -48,27 +48,38 @@ def plot_trapezoidal(t_vals, y_vals, a, b, h, expr):
 
 # Antarmuka Pengguna dengan Streamlit
 def main():
+    st.set_page_config(page_title="Sistem Bantu Keputusan Pengelolaan Air Irigasi", layout="wide")
+    
+    # Menampilkan logo
+    try:
+        st.image("logo_uigm.png", width=150)
+    except Exception as e:
+        st.warning("Logo tidak ditemukan. Pastikan file 'logo_uigm.png' berada di direktori yang sama.")
+    
     st.title("Sistem Bantu Keputusan Pengelolaan Air Irigasi")
     st.markdown("### Berbasis Metode Trapesium")
 
-    st.sidebar.header("Input Parameter")
+    st.header("Input Parameter")
 
     # Fungsi Input
-    func_str = st.sidebar.text_input(
+    func_str = st.text_input(
         "Fungsi Laju Alir Air (F(t))",
         value="2*t**2 + 4*t + 6",
         help="Contoh: 2*t**2 + 4*t + 6"
     )
 
     # Bounds Input
-    a = st.sidebar.number_input("Waktu Mulai (a) [detik]", value=0.0, step=0.1)
-    b = st.sidebar.number_input("Waktu Akhir (b) [detik]", value=10.0, step=0.1)
+    col1, col2 = st.columns(2)
+    with col1:
+        a = st.number_input("Waktu Mulai (a) [detik]", value=0.0, step=0.1)
+    with col2:
+        b = st.number_input("Waktu Akhir (b) [detik]", value=10.0, step=0.1)
 
     # Step Size Input
-    h = st.sidebar.number_input("Ukuran Langkah (h) [detik]", value=0.1, step=0.01, min_value=0.01)
+    h = st.number_input("Ukuran Langkah (h) [detik]", value=0.1, step=0.01, min_value=0.01)
 
     # Kebutuhan Air
-    water_need = st.sidebar.number_input("Kebutuhan Air (m³)", value=500.0, step=10.0, min_value=0.0)
+    water_need = st.number_input("Kebutuhan Air (m³)", value=500.0, step=10.0, min_value=0.0)
 
     # Preset Examples
     presets = [
@@ -78,7 +89,7 @@ def main():
         "F(t) = sin(t)",
         "F(t) = exp(t)"
     ]
-    preset = st.sidebar.selectbox("Preset Contoh", presets)
+    preset = st.selectbox("Preset Contoh", presets)
 
     if preset != "Custom":
         if preset == "F(t) = 20 (Konstan)":
@@ -102,7 +113,7 @@ def main():
             b = 2.0
             h = 0.1
 
-    if st.sidebar.button("Hitung Volume"):
+    if st.button("Hitung Volume"):
         try:
             if h <= 0:
                 st.error("Ukuran langkah (h) harus positif.")
@@ -182,6 +193,17 @@ def main():
 
         except Exception as e:
             st.error(f"Terjadi kesalahan: {e}")
+
+    # Menampilkan Nama Tim
+    st.markdown("---")
+    st.markdown("### Tim Pengembang")
+    st.markdown("""
+    - **Agung Pratama, M.U.**
+    - **Fido Millano**
+    - **Yeni**
+    - **Ajeng Kusumaning Dewi**
+    - **Alfina Elsa Putri**
+    """)
 
 def fig_to_image(fig):
     """Mengonversi Matplotlib Figure ke format PNG untuk diunduh."""
