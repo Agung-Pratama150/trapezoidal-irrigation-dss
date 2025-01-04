@@ -29,7 +29,7 @@ def compute_analytical_integral(expr, a, b):
 
 # Plotting Function
 def plot_trapezoidal(t_vals, y_vals, a, b, h, expr):
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(8, 5))
     ax.plot(t_vals, y_vals, 'b-', label=f'Laju Alir (F(t)) = {sp.pretty(expr)}')
 
     # Menggambar trapezoid
@@ -38,82 +38,18 @@ def plot_trapezoidal(t_vals, y_vals, a, b, h, expr):
         ys = [0, y_vals[i], y_vals[i+1], 0]
         ax.fill(xs, ys, edgecolor='r', alpha=0.2)
 
-    ax.set_title('Grafik Laju Alir vs Waktu dengan Aturan Trapesium', fontsize=16, fontweight='bold')
-    ax.set_xlabel('Waktu (t) [detik]', fontsize=14)
-    ax.set_ylabel('Laju Alir F(t) [m³/detik]', fontsize=14)
+    ax.set_title('Grafik Laju Alir vs Waktu dengan Aturan Trapesium', fontsize=14)
+    ax.set_xlabel('Waktu (t) [detik]', fontsize=12)
+    ax.set_ylabel('Laju Alir F(t) [m^3/detik]', fontsize=12)
     ax.legend()
     ax.grid(True)
     plt.tight_layout()
     return fig
 
-# Fungsi untuk mengonversi Matplotlib Figure ke format PNG
-def fig_to_image(fig):
-    """Mengonversi Matplotlib Figure ke format PNG untuk diunduh."""
-    import io
-    buf = io.BytesIO()
-    fig.savefig(buf, format="png")
-    buf.seek(0)
-    return buf
-
 # Antarmuka Pengguna dengan Streamlit
 def main():
-    # Menambahkan CSS Styling untuk Tampilan yang Lebih Menarik
-    st.markdown(
-        """
-        <style>
-        .title {
-            text-align: center;
-            color: #2E86C1;
-            font-size: 32px;
-            font-weight: bold;
-        }
-        .authors {
-            text-align: center;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-        .keywords {
-            color: #145A32;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
-    # Menampilkan Logo dan Foto Tim dalam satu baris
-    col1, col2 = st.columns([1, 2])
-    with col1:
-        st.image("logo_uigm.png", width=150, caption="Logo Universitas Indo Global Mandiri")
-    with col2:
-        st.image("foto_tim.png", use_container_width=True, caption="Foto Tim Peneliti")
-
-    # Judul dan Penulis
-    st.markdown('<div class="container">', unsafe_allow_html=True)
-    st.markdown('<h1 class="title">SISTEM BANTU KEPUTUSAN METODE TRAPESIUM UNTUK PENGELOLAAN AIR IRIGASI DENGAN PYTHON</h1>', unsafe_allow_html=True)
-    st.markdown("""
-    <div class="authors">
-    **Agung Pratama1, M.U. Fido Millano P.2, Yeni3, Ajeng Kusumaning Dewi4, Alfina Elsa Putri5**  
-    Program Studi Teknik Informatika, Fakultas Ilmu Komputer dan Sains, Universitas Indo Global Mandiri  
-    Jl. Jend. Sudirman Km.4 No. 62, 20 Ilir D. IV, Kec. Ilir Tim. I, Kota Palembang, Sumatera Selatan 30129  
-    E-mail:  
-    2023110111@students.uigm.ac.id  
-    2022110097@students.uigm.ac.id  
-    2023110102@students.uigm.ac.id  
-    2023110118@students.uigm.ac.id  
-    2023110118@students.uigm.ac.id  
-    </div>
-    """, unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
-
-    # Kata Kunci
-    st.markdown('<div class="keywords">**Kata Kunci:** air, irigasi, keputusan, sistem, trapezium, python</div>', unsafe_allow_html=True)
+    st.title("Sistem Bantu Keputusan Pengelolaan Air Irigasi")
+    st.markdown("### Berbasis Metode Trapesium")
 
     st.sidebar.header("Input Parameter")
 
@@ -170,13 +106,13 @@ def main():
         try:
             if h <= 0:
                 st.error("Ukuran langkah (h) harus positif.")
-                st.stop()
+                return
             if a >= b:
                 st.error("Waktu mulai (a) harus kurang dari waktu akhir (b).")
-                st.stop()
+                return
             if water_need < 0:
                 st.error("Kebutuhan air tidak boleh bernilai negatif.")
-                st.stop()
+                return
 
             # Parse fungsi menggunakan SymPy
             t = sp.symbols('t')
@@ -246,6 +182,14 @@ def main():
 
         except Exception as e:
             st.error(f"Terjadi kesalahan: {e}")
+
+def fig_to_image(fig):
+    """Mengonversi Matplotlib Figure ke format PNG untuk diunduh."""
+    import io
+    buf = io.BytesIO()
+    fig.savefig(buf, format="png")
+    buf.seek(0)
+    return buf
 
 if __name__ == "__main__":
     main()
