@@ -1,7 +1,7 @@
 import streamlit as st
 import numpy as np
 import sympy as sp
-import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 import pandas as pd
 
 # Fungsi untuk mengevaluasi ekspresi yang dimasukkan oleh pengguna
@@ -28,32 +28,46 @@ def compute_analytical_integral(expr, a, b):
     integral_expr = sp.integrate(expr, (t, a, b))
     return float(integral_expr)
 
-# Plotting Function
-def plot_trapezoidal(t_vals, y_vals, a, b, h, expr):
-    fig, ax = plt.subplots(figsize=(8, 5))
-    ax.plot(t_vals, y_vals, 'b-', label=f'Laju Alir (F(t)) = {sp.pretty(expr)}')
+# Plotting Function menggunakan Plotly
+def plot_trapezoidal_plotly(t_vals, y_vals, a, b, h, expr):
+    fig = go.Figure()
+
+    # Plot fungsi F(t)
+    fig.add_trace(go.Scatter(
+        x=t_vals,
+        y=y_vals,
+        mode='lines',
+        name=f'Laju Alir (F(t)) = {sp.pretty(expr)}',
+        line=dict(color='blue')
+    ))
 
     # Menggambar trapezoid
     for i in range(len(t_vals)-1):
-        xs = [t_vals[i], t_vals[i], t_vals[i+1], t_vals[i+1]]
-        ys = [0, y_vals[i], y_vals[i+1], 0]
-        ax.fill(xs, ys, edgecolor='r', alpha=0.2)
+        xs = [t_vals[i], t_vals[i], t_vals[i+1], t_vals[i+1], t_vals[i]]
+        ys = [0, y_vals[i], y_vals[i+1], 0, 0]
+        fig.add_trace(go.Scatter(
+            x=xs,
+            y=ys,
+            fill='toself',
+            fillcolor='rgba(255, 0, 0, 0.2)',
+            line=dict(color='rgba(255, 0, 0, 0)'),
+            showlegend=False
+        ))
 
-    ax.set_title('Grafik Laju Alir vs Waktu dengan Aturan Trapesium', fontsize=14)
-    ax.set_xlabel('Waktu (t) [detik]', fontsize=12)
-    ax.set_ylabel('Laju Alir F(t) [m³/detik]', fontsize=12)
-    ax.legend()
-    ax.grid(True)
-    plt.tight_layout()
+    fig.update_layout(
+        title='Grafik Laju Alir vs Waktu dengan Aturan Trapesium',
+        xaxis_title='Waktu (t) [detik]',
+        yaxis_title='Laju Alir F(t) [m³/detik]',
+        hovermode='x unified'
+    )
+
     return fig
 
-# Fungsi untuk mengonversi Matplotlib Figure ke format PNG untuk diunduh
-def fig_to_image(fig):
+# Fungsi untuk mengonversi Plotly Figure ke format PNG untuk diunduh
+def fig_to_image_plotly(fig):
     import io
-    buf = io.BytesIO()
-    fig.savefig(buf, format="png")
-    buf.seek(0)
-    return buf
+    img_bytes = fig.to_image(format="png")
+    return img_bytes
 
 # Antarmuka Pengguna dengan Streamlit
 def main():
@@ -63,7 +77,7 @@ def main():
         page_icon="app_logo.png"  # Mengganti favicon dengan app_logo.png
     )
 
-    # Membuat header dengan dua kolom: logo aplikasi dan logo UIGM
+    # Membuat header dengan tiga kolom: logo aplikasi, judul kosong, dan logo UIGM
     header_col1, header_col2, header_col3 = st.columns([1, 6, 1])
     with header_col1:
         try:
@@ -80,11 +94,6 @@ def main():
 
     st.markdown("---")
 
-    st.title("Sistem Bantu Keputusan Pengelolaan Air Irigasi")
-    st.markdown("### Berbasis Metode Trapesium Integral Analisis Numerik")
-
-    st.markdown("---")
-
     # Menampilkan Nama Tim di bawah header
     st.markdown("### Tim Pengembang")
     st.markdown("""
@@ -94,6 +103,11 @@ def main():
     - **Ajeng Kusumaning Dewi**
     - **Alfina Elsa Putri**
     """)
+
+    st.markdown("---")
+
+    st.title("Sistem Bantu Keputusan Pengelolaan Air Irigasi")
+    st.markdown("### Berbasis Metode Trapesium Integral Analisis Numerik")
 
     # Menggunakan HTML untuk mengatur ukuran teks "Masukan Data"
     st.markdown("<h4 style='font-size:20px;'>Masukan Data</h4>", unsafe_allow_html=True)
@@ -218,14 +232,14 @@ def main():
             st.markdown("### Hasil Perhitungan")
             st.dataframe(result_df.style.applymap(color_decision, subset=["Nilai"]))
 
-            # Plot grafik
-            fig = plot_trapezoidal(t_vals, y_vals, a, b, h, func_expr)
-            st.pyplot(fig)
+            # Plot grafik menggunakan Plotly
+            fig = plot_trapezoidal_plotly(t_vals, y_vals, a, b, h, func_expr)
+            st.plotly_chart(fig, use_container_width=True)
 
             # Unduh Plot
             st.download_button(
                 label="Unduh Plot",
-                data=fig_to_image(fig),
+                data=fig_to_image_plotly(fig),
                 file_name="plot_trapezoidal.png",
                 mime="image/png"
             )
@@ -257,6 +271,21 @@ def main():
     """, unsafe_allow_html=True)
 
     st.markdown("---")
+
+    # Prompt untuk Membuat Logo Aplikasi
+    st.markdown("### Membuat Logo Aplikasi")
+    st.markdown("""
+    Untuk membuat logo aplikasi yang sesuai, Anda dapat menggunakan generator logo AI atau alat desain grafis. Berikut adalah contoh prompt yang dapat Anda gunakan dengan generator gambar AI seperti DALL·E atau Midjourney:
+
+    **Prompt:**
+    ```
+    Desain logo modern dan profesional untuk aplikasi pengelolaan air irigasi berbasis metode trapesium. Gunakan warna biru dan hijau yang melambangkan air dan pertanian, dengan elemen grafik yang menggambarkan aliran air dan presisi. Logo harus sederhana, mudah dikenali, dan cocok digunakan di berbagai platform digital.
+    ```
+    
+    **Catatan:**
+    - Pastikan logo sederhana dan mudah dikenali.
+    - Sesuaikan ukuran dan format gambar agar kompatibel dengan aplikasi Streamlit.
+    """)
 
 if __name__ == "__main__":
     main()
