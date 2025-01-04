@@ -29,7 +29,7 @@ def compute_analytical_integral(expr, a, b):
 
 # Plotting Function
 def plot_trapezoidal(t_vals, y_vals, a, b, h, expr):
-    fig, ax = plt.subplots(figsize=(8, 5))
+    fig, ax = plt.subplots(figsize=(10, 6))
     ax.plot(t_vals, y_vals, 'b-', label=f'Laju Alir (F(t)) = {sp.pretty(expr)}')
 
     # Menggambar trapezoid
@@ -38,9 +38,9 @@ def plot_trapezoidal(t_vals, y_vals, a, b, h, expr):
         ys = [0, y_vals[i], y_vals[i+1], 0]
         ax.fill(xs, ys, edgecolor='r', alpha=0.2)
 
-    ax.set_title('Grafik Laju Alir vs Waktu dengan Aturan Trapesium', fontsize=14)
-    ax.set_xlabel('Waktu (t) [detik]', fontsize=12)
-    ax.set_ylabel('Laju Alir F(t) [m³/detik]', fontsize=12)
+    ax.set_title('Grafik Laju Alir vs Waktu dengan Aturan Trapesium', fontsize=16, fontweight='bold')
+    ax.set_xlabel('Waktu (t) [detik]', fontsize=14)
+    ax.set_ylabel('Laju Alir F(t) [m³/detik]', fontsize=14)
     ax.legend()
     ax.grid(True)
     plt.tight_layout()
@@ -79,7 +79,7 @@ def main():
             margin-bottom: 20px;
         }
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
         }
         </style>
@@ -114,9 +114,6 @@ def main():
 
     # Kata Kunci
     st.markdown('<div class="keywords">**Kata Kunci:** air, irigasi, keputusan, sistem, trapezium, python</div>', unsafe_allow_html=True)
-
-    # Penjelasan tentang Program (Dihapus)
-    # Bagian ini dihapus sesuai permintaan Anda
 
     st.sidebar.header("Input Parameter")
 
@@ -173,13 +170,13 @@ def main():
         try:
             if h <= 0:
                 st.error("Ukuran langkah (h) harus positif.")
-                return
+                st.stop()
             if a >= b:
                 st.error("Waktu mulai (a) harus kurang dari waktu akhir (b).")
-                return
+                st.stop()
             if water_need < 0:
                 st.error("Kebutuhan air tidak boleh bernilai negatif.")
-                return
+                st.stop()
 
             # Parse fungsi menggunakan SymPy
             t = sp.symbols('t')
@@ -252,4 +249,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
