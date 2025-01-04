@@ -78,7 +78,13 @@ def main():
         except Exception:
             st.warning("Logo UIGM tidak ditemukan. Pastikan file 'logo_uigm.png' berada di direktori yang sama.")
 
+
     st.markdown("---")
+
+    st.title("Sistem Bantu Keputusan Pengelolaan Air Irigasi")
+    st.markdown("### Berbasis Metode Trapesium Integral Analisis Numerik")
+
+        st.markdown("---")
 
     # Menampilkan Nama Tim di bawah header
     st.markdown("### Tim Pengembang")
@@ -89,11 +95,6 @@ def main():
     - **Ajeng Kusumaning Dewi**
     - **Alfina Elsa Putri**
     """)
-
-    st.markdown("---")
-
-    st.title("Sistem Bantu Keputusan Pengelolaan Air Irigasi")
-    st.markdown("### Berbasis Metode Trapesium Integral Analisis Numerik")
 
     # Menggunakan HTML untuk mengatur ukuran teks "Masukan Data"
     st.markdown("<h4 style='font-size:20px;'>Masukan Data</h4>", unsafe_allow_html=True)
