@@ -86,7 +86,7 @@ def main():
     st.markdown("---")
 
     st.title("Sistem Bantu Keputusan Pengelolaan Air Irigasi")
-    st.markdown("### Berbasis Metode Trapesium")
+    st.markdown("### Berbasis Metode Trapesium Integral Analisis Numerik")
 
     st.markdown("#### Masukan Data", unsafe_allow_html=True)
 
