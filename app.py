@@ -84,26 +84,13 @@ def main():
     st.markdown('<h1 class="title">SISTEM BANTU KEPUTUSAN METODE TRAPESIUM UNTUK PENGELOLAAN AIR IRIGASI DENGAN PYTHON</h1>', unsafe_allow_html=True)
     st.markdown("""
     <div class="authors">
-    **Agung Pratama1, M.U. Fido Millano P.2, Yeni3, Ajeng Kusumaning Dewi4, Alfina Elsa Putri5**  
-    Program Studi Teknik Informatika, Fakultas Ilmu Komputer dan Sains, Universitas Indo Global Mandiri  
-    Jl. Jend. Sudirman Km.4 No. 62, 20 Ilir D. IV, Kec. Ilir Tim. I, Kota Palembang, Sumatera Selatan 30129  
-    E-mail:  
-    2023110111@students.uigm.ac.id  
-    2022110097@students.uigm.ac.id  
-    2023110102@students.uigm.ac.id  
-    2023110118@students.uigm.ac.id  
-    2023110118@students.uigm.ac.id  
+     Agung Pratama
+     M.U. Fido. Millano
+     Yeni
+     Ajeng Kusumaning Dewi
+     Alfina Elsa Putri
     </div>
     """, unsafe_allow_html=True)
-
-    # Abstrak
-    st.markdown('<div class="abstract">#### Abstrak</div>', unsafe_allow_html=True)
-    st.markdown("""
-    Pengelolaan air irigasi kerap menghadapi tantangan dalam menentukan volume dan durasi aliran yang optimal. Dalam penelitian ini, dikembangkan sebuah sistem bantu keputusan yang memanfaatkan metode trapesium untuk mendekati nilai total aliran air. Program ini dikembangkan menggunakan bahasa pemrograman Python dan dapat memodelkan laju aliran air dari waktu ke waktu sehingga memudahkan proses penghitungan volume secara numerik. Dengan metode ini, pengelola irigasi dapat membandingkan jumlah air yang diberikan dengan kebutuhan lahan secara lebih efisien, tanpa perlu melakukan pemantauan manual yang berkelanjutan. Proses pengujian dilakukan pada beberapa skenario simulasi yang menunjukkan akurasi perhitungan volume air yang baik serta waktu komputasi yang relatif singkat. Hasil penelitian ini menunjukkan bahwa sistem bantu keputusan berbasis metode trapesium mampu mendukung pengambilan keputusan yang lebih tepat dalam pengelolaan air irigasi. Temuan ini diharapkan membantu para pemangku kepentingan mempertahankan ketersediaan air yang memadai dan efisien bagi area pertanian.
-    """, unsafe_allow_html=True)
-
-    # Kata Kunci
-    st.markdown('<div class="keywords">**Kata Kunci:** air, irigasi, keputusan, sistem, trapezium, python</div>', unsafe_allow_html=True)
 
     # Penjelasan tentang Program
     st.markdown("""
