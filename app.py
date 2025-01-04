@@ -76,8 +76,8 @@ def main():
     # Menampilkan Nama Tim
     st.markdown("### Tim Pengembang")
     st.markdown("""
-    - **Agung Pratama, M.U.**
-    - **Fido Millano**
+    - **Agung Pratama**
+    - **M.U.Fido Millano**
     - **Yeni**
     - **Ajeng Kusumaning Dewi**
     - **Alfina Elsa Putri**
