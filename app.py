@@ -48,17 +48,42 @@ def plot_trapezoidal(t_vals, y_vals, a, b, h, expr):
 
 # Antarmuka Pengguna dengan Streamlit
 def main():
-    # Menampilkan Logo dan Foto Tim
+    # Menambahkan CSS Styling
+    st.markdown(
+        """
+        <style>
+        .title {
+            text-align: center;
+            color: #2E86C1;
+        }
+        .authors {
+            text-align: center;
+            font-size: 16px;
+        }
+        .abstract {
+            font-style: italic;
+            margin: 20px 0;
+        }
+        .keywords {
+            color: #145A32;
+            font-weight: bold;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    # Menampilkan Logo dan Foto Tim dalam satu baris
     col1, col2 = st.columns([1, 2])
     with col1:
-        st.image("logo_uigm.png", width=150)
+        st.image("logo_uigm.png", width=150, caption="Logo Universitas Indo Global Mandiri")
     with col2:
-        st.image("foto_tim.png", use_column_width=True)
-    
-    # Judul dan Deskripsi
-    st.title("SISTEM BANTU KEPUTUSAN METODE TRAPESIUM UNTUK PENGELOLAAN AIR IRIGASI DENGAN PYTHON")
+        st.image("foto_tim.png", use_container_width=True, caption="Foto Tim Peneliti")
+
+    # Judul dan Penulis
+    st.markdown('<h1 class="title">SISTEM BANTU KEPUTUSAN METODE TRAPESIUM UNTUK PENGELOLAAN AIR IRIGASI DENGAN PYTHON</h1>', unsafe_allow_html=True)
     st.markdown("""
-    ### Penulis:
+    <div class="authors">
     **Agung Pratama1, M.U. Fido Millano P.2, Yeni3, Ajeng Kusumaning Dewi4, Alfina Elsa Putri5**  
     Program Studi Teknik Informatika, Fakultas Ilmu Komputer dan Sains, Universitas Indo Global Mandiri  
     Jl. Jend. Sudirman Km.4 No. 62, 20 Ilir D. IV, Kec. Ilir Tim. I, Kota Palembang, Sumatera Selatan 30129  
@@ -68,12 +93,17 @@ def main():
     2023110102@students.uigm.ac.id  
     2023110118@students.uigm.ac.id  
     2023110118@students.uigm.ac.id  
+    </div>
+    """, unsafe_allow_html=True)
 
-    #### Abstrak
+    # Abstrak
+    st.markdown('<div class="abstract">#### Abstrak</div>', unsafe_allow_html=True)
+    st.markdown("""
     Pengelolaan air irigasi kerap menghadapi tantangan dalam menentukan volume dan durasi aliran yang optimal. Dalam penelitian ini, dikembangkan sebuah sistem bantu keputusan yang memanfaatkan metode trapesium untuk mendekati nilai total aliran air. Program ini dikembangkan menggunakan bahasa pemrograman Python dan dapat memodelkan laju aliran air dari waktu ke waktu sehingga memudahkan proses penghitungan volume secara numerik. Dengan metode ini, pengelola irigasi dapat membandingkan jumlah air yang diberikan dengan kebutuhan lahan secara lebih efisien, tanpa perlu melakukan pemantauan manual yang berkelanjutan. Proses pengujian dilakukan pada beberapa skenario simulasi yang menunjukkan akurasi perhitungan volume air yang baik serta waktu komputasi yang relatif singkat. Hasil penelitian ini menunjukkan bahwa sistem bantu keputusan berbasis metode trapesium mampu mendukung pengambilan keputusan yang lebih tepat dalam pengelolaan air irigasi. Temuan ini diharapkan membantu para pemangku kepentingan mempertahankan ketersediaan air yang memadai dan efisien bagi area pertanian.
+    """, unsafe_allow_html=True)
 
-    **Kata Kunci:** air, irigasi, keputusan, sistem, trapezium, python
-    """)
+    # Kata Kunci
+    st.markdown('<div class="keywords">**Kata Kunci:** air, irigasi, keputusan, sistem, trapezium, python</div>', unsafe_allow_html=True)
 
     # Penjelasan tentang Program
     st.markdown("""
