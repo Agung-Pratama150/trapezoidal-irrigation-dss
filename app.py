@@ -80,6 +80,11 @@ def main():
 
     st.markdown("---")
 
+    st.title("Sistem Bantu Keputusan Pengelolaan Air Irigasi")
+    st.markdown("### Berbasis Metode Trapesium Integral Analisis Numerik")
+
+    st.markdown("---")
+
     # Menampilkan Nama Tim di bawah header
     st.markdown("### Tim Pengembang")
     st.markdown("""
@@ -89,11 +94,6 @@ def main():
     - **Ajeng Kusumaning Dewi**
     - **Alfina Elsa Putri**
     """)
-
-    st.markdown("---")
-
-    st.title("Sistem Bantu Keputusan Pengelolaan Air Irigasi")
-    st.markdown("### Berbasis Metode Trapesium Integral Analisis Numerik")
 
     # Menggunakan HTML untuk mengatur ukuran teks "Masukan Data"
     st.markdown("<h4 style='font-size:20px;'>Masukan Data</h4>", unsafe_allow_html=True)
@@ -257,21 +257,6 @@ def main():
     """, unsafe_allow_html=True)
 
     st.markdown("---")
-
-    # Prompt untuk Membuat Logo Aplikasi
-    st.markdown("### Membuat Logo Aplikasi")
-    st.markdown("""
-    Untuk membuat logo aplikasi yang sesuai, Anda dapat menggunakan generator logo AI atau alat desain grafis. Berikut adalah contoh prompt yang dapat Anda gunakan dengan generator gambar AI seperti DALL·E atau Midjourney:
-
-    **Prompt:**
-    ```
-    Desain logo modern dan profesional untuk aplikasi pengelolaan air irigasi berbasis metode trapesium. Gunakan warna biru dan hijau yang melambangkan air dan pertanian, dengan elemen grafik yang menggambarkan aliran air dan presisi. Logo harus sederhana, mudah dikenali, dan cocok digunakan di berbagai platform digital.
-    ```
-    
-    **Catatan:**
-    - Pastikan logo sederhana dan mudah dikenali.
-    - Sesuaikan ukuran dan format gambar agar kompatibel dengan aplikasi Streamlit.
-    """)
 
 if __name__ == "__main__":
     main()
