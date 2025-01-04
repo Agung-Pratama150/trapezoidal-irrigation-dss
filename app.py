@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np
 import sympy as sp
 import matplotlib.pyplot as plt
+import pandas as pd
 
 # Fungsi untuk mengevaluasi ekspresi yang dimasukkan oleh pengguna
 def evaluate_function(expr, t_val):
@@ -46,20 +47,48 @@ def plot_trapezoidal(t_vals, y_vals, a, b, h, expr):
     plt.tight_layout()
     return fig
 
+# Fungsi untuk mengonversi Matplotlib Figure ke format PNG untuk diunduh
+def fig_to_image(fig):
+    import io
+    buf = io.BytesIO()
+    fig.savefig(buf, format="png")
+    buf.seek(0)
+    return buf
+
 # Antarmuka Pengguna dengan Streamlit
 def main():
     st.set_page_config(page_title="Sistem Bantu Keputusan Pengelolaan Air Irigasi", layout="wide")
-    
-    # Menampilkan logo
+
+    # Menampilkan logo aplikasi
     try:
-        st.image("logo_uigm.png", width=150)
-    except Exception as e:
-        st.warning("Logo tidak ditemukan. Pastikan file 'logo_uigm.png' berada di direktori yang sama.")
+        st.image("app_logo.png", width=150)
+    except Exception:
+        st.warning("Logo aplikasi tidak ditemukan. Pastikan file 'app_logo.png' berada di direktori yang sama.")
     
+    # Menampilkan logo UIGM
+    try:
+        st.image("logo_uigm.png", width=100)
+    except Exception:
+        st.warning("Logo UIGM tidak ditemukan. Pastikan file 'logo_uigm.png' berada di direktori yang sama.")
+
+    st.markdown("---")
+
+    # Menampilkan Nama Tim
+    st.markdown("### Tim Pengembang")
+    st.markdown("""
+    - **Agung Pratama, M.U.**
+    - **Fido Millano**
+    - **Yeni**
+    - **Ajeng Kusumaning Dewi**
+    - **Alfina Elsa Putri**
+    """)
+
+    st.markdown("---")
+
     st.title("Sistem Bantu Keputusan Pengelolaan Air Irigasi")
     st.markdown("### Berbasis Metode Trapesium")
 
-    st.header("Input Parameter")
+    st.markdown("#### Masukan Data", unsafe_allow_html=True)
 
     # Fungsi Input
     func_str = st.text_input(
@@ -147,37 +176,36 @@ def main():
 
             # Sistem Bantu Keputusan (Sederhana)
             if volume_approx >= water_need:
-                dss_decision = (
-                    "<span style='color:green; font-weight:bold;'>"
-                    "Kebutuhan air terpenuhi</span>"
-                )
+                dss_decision = "Kebutuhan air terpenuhi"
+                decision_color = "green"
             else:
-                dss_decision = (
-                    "<span style='color:red; font-weight:bold;'>"
-                    "Kebutuhan air belum terpenuhi</span>"
-                )
+                dss_decision = "Kebutuhan air belum terpenuhi"
+                decision_color = "red"
 
-            # Tampilkan hasil
-            if integral_exact is not None:
-                result = (
-                    f"**Hasil Perhitungan:**\n\n"
-                    f"Perkiraan volume air yang dialirkan (Metode Trapesium): **{volume_approx:.4f} m³**\n\n"
-                    f"Nilai Integral Analitik (jika tersedia): **{integral_exact:.4f} m³**\n\n"
-                    f"Error Relatif: **{error_str}**\n\n"
-                    f"**Kebutuhan Air:** {water_need:.2f} m³\n\n"
-                    f"Hasil Keputusan: {dss_decision}"
-                )
-            else:
-                result = (
-                    f"**Hasil Perhitungan:**\n\n"
-                    f"Perkiraan volume air yang dialirkan (Metode Trapesium): **{volume_approx:.4f} m³**\n\n"
-                    f"Nilai Integral Analitik: **Tidak tersedia**\n\n"
-                    f"Error Relatif: **{error_str}**\n\n"
-                    f"**Kebutuhan Air:** {water_need:.2f} m³\n\n"
-                    f"Hasil Keputusan: {dss_decision}"
-                )
+            # Mengelompokkan hasil perhitungan dalam tabel
+            result_data = {
+                "Deskripsi": [
+                    "Volume Air (Metode Trapesium)",
+                    "Integral Analitik",
+                    "Error Relatif",
+                    "Kebutuhan Air",
+                    "Hasil Keputusan"
+                ],
+                "Nilai": [
+                    f"{volume_approx:.4f} m³",
+                    f"{integral_exact:.4f} m³" if integral_exact is not None else "Tidak tersedia",
+                    error_str,
+                    f"{water_need:.2f} m³",
+                    dss_decision
+                ]
+            }
 
-            st.markdown(result, unsafe_allow_html=True)
+            result_df = pd.DataFrame(result_data)
+
+            st.markdown("### Hasil Perhitungan")
+            st.table(result_df.style.applymap(
+                lambda x: f'color: {decision_color}' if x == dss_decision else ''
+            ))
 
             # Plot grafik
             fig = plot_trapezoidal(t_vals, y_vals, a, b, h, func_expr)
@@ -194,24 +222,43 @@ def main():
         except Exception as e:
             st.error(f"Terjadi kesalahan: {e}")
 
-    # Menampilkan Nama Tim
     st.markdown("---")
-    st.markdown("### Tim Pengembang")
-    st.markdown("""
-    - **Agung Pratama, M.U.**
-    - **Fido Millano**
-    - **Yeni**
-    - **Ajeng Kusumaning Dewi**
-    - **Alfina Elsa Putri**
-    """)
 
-def fig_to_image(fig):
-    """Mengonversi Matplotlib Figure ke format PNG untuk diunduh."""
-    import io
-    buf = io.BytesIO()
-    fig.savefig(buf, format="png")
-    buf.seek(0)
-    return buf
+    # Formulir Komentar menggunakan FormSubmit
+    st.markdown("### Kirim Komentar")
+    st.markdown("""
+    <form action="https://formsubmit.co/catfunny604@gmail.com" method="POST">
+        <input type="hidden" name="_captcha" value="false">
+        <div style="margin-bottom: 10px;">
+            <label for="name">Nama:</label><br>
+            <input type="text" id="name" name="name" required style="width: 100%;">
+        </div>
+        <div style="margin-bottom: 10px;">
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" required style="width: 100%;">
+        </div>
+        <div style="margin-bottom: 10px;">
+            <label for="message">Komentar:</label><br>
+            <textarea id="message" name="message" rows="4" required style="width: 100%;"></textarea>
+        </div>
+        <button type="submit" style="background-color:#4CAF50; color:white; padding:10px 20px; border:none; cursor:pointer;">Kirim</button>
+    </form>
+    """, unsafe_allow_html=True)
+
+    st.markdown("---")
+
+    # Prompt untuk Membuat Logo Aplikasi
+    st.markdown("### Membuat Logo Aplikasi")
+    st.markdown("""
+    Untuk membuat logo aplikasi yang sesuai, Anda dapat menggunakan generator logo AI atau alat desain grafis. Berikut adalah contoh prompt yang dapat Anda gunakan dengan generator gambar AI seperti DALL·E atau Midjourney:
+
+    **Prompt:**
+    "Desain logo modern dan profesional untuk aplikasi pengelolaan air irigasi berbasis metode trapesium. Gunakan warna biru dan hijau yang melambangkan air dan pertanian, dengan elemen grafik yang menggambarkan aliran air dan precision."
+
+    **Catatan:**
+    - Pastikan logo sederhana dan mudah dikenali.
+    - Sesuaikan ukuran dan format gambar agar kompatibel dengan aplikasi Streamlit.
+    """)
 
 if __name__ == "__main__":
     main()
