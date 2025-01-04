@@ -57,23 +57,30 @@ def fig_to_image(fig):
 
 # Antarmuka Pengguna dengan Streamlit
 def main():
-    st.set_page_config(page_title="Sistem Bantu Keputusan Pengelolaan Air Irigasi", layout="wide")
+    st.set_page_config(
+        page_title="Sistem Bantu Keputusan Pengelolaan Air Irigasi",
+        layout="wide",
+        page_icon="app_logo.png"  # Mengganti favicon dengan app_logo.png
+    )
 
-    # Menampilkan logo aplikasi
-    try:
-        st.image("app_logo.png", width=150)
-    except Exception:
-        st.warning("Logo aplikasi tidak ditemukan. Pastikan file 'app_logo.png' berada di direktori yang sama.")
-    
-    # Menampilkan logo UIGM
-    try:
-        st.image("logo_uigm.png", width=100)
-    except Exception:
-        st.warning("Logo UIGM tidak ditemukan. Pastikan file 'logo_uigm.png' berada di direktori yang sama.")
+    # Membuat header dengan dua kolom: logo aplikasi dan logo UIGM
+    header_col1, header_col2, header_col3 = st.columns([1, 6, 1])
+    with header_col1:
+        try:
+            st.image("app_logo.png", width=100)
+        except Exception:
+            st.warning("Logo aplikasi tidak ditemukan. Pastikan file 'app_logo.png' berada di direktori yang sama.")
+    with header_col2:
+        st.empty()  # Placeholder untuk tengah
+    with header_col3:
+        try:
+            st.image("logo_uigm.png", width=150)  # Memperbesar logo UIGM
+        except Exception:
+            st.warning("Logo UIGM tidak ditemukan. Pastikan file 'logo_uigm.png' berada di direktori yang sama.")
 
     st.markdown("---")
 
-    # Menampilkan Nama Tim
+    # Menampilkan Nama Tim di bawah header
     st.markdown("### Tim Pengembang")
     st.markdown("""
     - **Agung Pratama**
@@ -88,7 +95,8 @@ def main():
     st.title("Sistem Bantu Keputusan Pengelolaan Air Irigasi")
     st.markdown("### Berbasis Metode Trapesium Integral Analisis Numerik")
 
-    st.markdown("#### Masukan Data", unsafe_allow_html=True)
+    # Menggunakan HTML untuk mengatur ukuran teks "Masukan Data"
+    st.markdown("<h4 style='font-size:20px;'>Masukan Data</h4>", unsafe_allow_html=True)
 
     # Fungsi Input
     func_str = st.text_input(
@@ -202,10 +210,13 @@ def main():
 
             result_df = pd.DataFrame(result_data)
 
+            # Fungsi untuk mewarnai hasil keputusan
+            def color_decision(val):
+                color = 'green' if val == "Kebutuhan air terpenuhi" else 'red'
+                return f'color: {color}'
+
             st.markdown("### Hasil Perhitungan")
-            st.table(result_df.style.applymap(
-                lambda x: f'color: {decision_color}' if x == dss_decision else ''
-            ))
+            st.dataframe(result_df.style.applymap(color_decision, subset=["Nilai"]))
 
             # Plot grafik
             fig = plot_trapezoidal(t_vals, y_vals, a, b, h, func_expr)
@@ -246,6 +257,21 @@ def main():
     """, unsafe_allow_html=True)
 
     st.markdown("---")
+
+    # Prompt untuk Membuat Logo Aplikasi
+    st.markdown("### Membuat Logo Aplikasi")
+    st.markdown("""
+    Untuk membuat logo aplikasi yang sesuai, Anda dapat menggunakan generator logo AI atau alat desain grafis. Berikut adalah contoh prompt yang dapat Anda gunakan dengan generator gambar AI seperti DALL·E atau Midjourney:
+
+    **Prompt:**
+    ```
+    Desain logo modern dan profesional untuk aplikasi pengelolaan air irigasi berbasis metode trapesium. Gunakan warna biru dan hijau yang melambangkan air dan pertanian, dengan elemen grafik yang menggambarkan aliran air dan presisi. Logo harus sederhana, mudah dikenali, dan cocok digunakan di berbagai platform digital.
+    ```
+    
+    **Catatan:**
+    - Pastikan logo sederhana dan mudah dikenali.
+    - Sesuaikan ukuran dan format gambar agar kompatibel dengan aplikasi Streamlit.
+    """)
 
 if __name__ == "__main__":
     main()
